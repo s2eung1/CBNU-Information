@@ -175,32 +175,32 @@ public class MemoCalendar extends CalendarDataManager{ // CalendarDataManager의
 			calOpGC.insets = new Insets(5,5,0,0);
 			calOpGC.anchor = GridBagConstraints.WEST;
 			calOpGC.fill = GridBagConstraints.NONE;
-			calOpPanel.add(todayBut,calOpGC);
+			//calOpPanel.add(todayBut,calOpGC);
 			calOpGC.gridwidth = 3;
 			calOpGC.gridx = 2;
 			calOpGC.gridy = 1;
-			calOpPanel.add(todayLab,calOpGC);
+			//calOpPanel.add(todayLab,calOpGC);
 			calOpGC.anchor = GridBagConstraints.CENTER;
 			calOpGC.gridwidth = 1;
 			calOpGC.gridx = 1;
 			calOpGC.gridy = 2;
-			calOpPanel.add(lYearBut,calOpGC);
+			//calOpPanel.add(lYearBut,calOpGC);
 			calOpGC.gridwidth = 1;
 			calOpGC.gridx = 2;
 			calOpGC.gridy = 2;
-			calOpPanel.add(lMonBut,calOpGC);
+			//calOpPanel.add(lMonBut,calOpGC);
 			calOpGC.gridwidth = 2;
 			calOpGC.gridx = 3;
 			calOpGC.gridy = 2;
-			calOpPanel.add(curMMYYYYLab,calOpGC);
+			//calOpPanel.add(curMMYYYYLab,calOpGC);
 			calOpGC.gridwidth = 1;
 			calOpGC.gridx = 5;
 			calOpGC.gridy = 2;
-			calOpPanel.add(nMonBut,calOpGC);
+			//calOpPanel.add(nMonBut,calOpGC);
 			calOpGC.gridwidth = 1;
 			calOpGC.gridx = 6;
 			calOpGC.gridy = 2;
-			calOpPanel.add(nYearBut,calOpGC);
+			//calOpPanel.add(nYearBut,calOpGC);
 		// 여기까지 버튼 설정
 
 		calPanel=new JPanel();
@@ -236,43 +236,46 @@ public class MemoCalendar extends CalendarDataManager{ // CalendarDataManager의
 					calPanel.add(dateButs[i][j]);
 				}
 			}
-			calPanel.setLayout(new GridLayout(0,7,2,2));
-			calPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5));
+			calPanel.setLayout(new GridLayout(0,7,2,2)); // 순서대로 건들X(7또는0만), 7일7칸 맞춤, 좌우간격, 상하 간격
+			calPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5)); // 빈 상자 제작
 			showCal(); // 달력을 표시
 						
 		infoPanel = new JPanel();
-		infoPanel.setForeground(Color.WHITE);
+		infoPanel.setForeground(Color.WHITE); // 글자색 하얀
 		infoPanel.setBackground(new Color(62,60,61));
 			infoPanel.setLayout(new BorderLayout());
-			infoClock = new JLabel("", SwingConstants.RIGHT);
+			infoClock = new JLabel("", SwingConstants.RIGHT);// 오른쪽에 위치
 			infoClock.setBackground(new Color(62,60,61));
 			infoClock.setForeground(Color.WHITE);
-			infoClock.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-			infoPanel.add(infoClock, BorderLayout.NORTH);
-			selectedDate = new JLabel("<Html><font size=3>"+(today.get(Calendar.MONTH)+1)+"/"+today.get(Calendar.DAY_OF_MONTH)+"/"+today.get(Calendar.YEAR)+"&nbsp;(Today)</html>", SwingConstants.LEFT);
+			infoClock.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // 빈상자
+			infoPanel.add(infoClock, BorderLayout.NORTH); //북쪽에 위치
+			selectedDate = new JLabel("<Html><font size=4>"+(today.get(Calendar.MONTH)+1)+"/"+today.get(Calendar.DAY_OF_MONTH)+"/"+today.get(Calendar.YEAR)+"&nbsp;(Today)</html>", SwingConstants.LEFT);
+			// 메모위에 날짜 출력 폰트는 3 or 4가 적당
 			selectedDate.setForeground(Color.WHITE);
-			selectedDate.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
+			selectedDate.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0)); // 빈상자 제작
 						
+			
 		memoPanel=new JPanel();
-		memoPanel.setForeground(new Color(254,250,84));
+		memoPanel.setForeground(Color.WHITE);
 		memoPanel.setBackground(new Color(62,60,61));
 			memoPanel.setBorder(BorderFactory.createTitledBorder(" Memo "));
-			memoArea = new JTextArea();
-			memoArea.setForeground(Color.BLACK);
+			memoArea = new JTextArea(); // 글자가 적히는 영역 생성
+			memoArea.setForeground(Color.BLACK); // 메모에 적히는 글자의 색
 			memoArea.setLineWrap(true);
 			memoArea.setWrapStyleWord(true);
-			memoAreaSP = new JScrollPane(memoArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-			memoAreaSP.setBackground(Color.GRAY);
-			readMemo();
+			memoAreaSP = new JScrollPane(memoArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER); 
+			//스크롤을 내리는 범위
+			memoAreaSP.setBackground(new Color(62,60,61));
+			readMemo(); // text사용하는 것 바꿔야함
 			
 			memoSubPanel=new JPanel();
 			memoSubPanel.setForeground(Color.WHITE);
 			memoSubPanel.setBackground(new Color(62, 60, 61));
 			saveBut = new JButton(" Save "); 
-			saveBut.addActionListener(new ActionListener(){
-				public void actionPerformed(ActionEvent arg0) {
+			saveBut.addActionListener(new ActionListener(){ // save 버튼 입력시 액션
+				public void actionPerformed(ActionEvent arg0) { //이 메소드 DB로 수정 
 					try {
-						File f= new File("MemoData");
+						File f= new File("MemoData"); // text파일에 저장 -> DB로 변경
 						if(!f.isDirectory()) f.mkdir();
 						
 						String memo = memoArea.getText();
@@ -287,12 +290,12 @@ public class MemoCalendar extends CalendarDataManager{ // CalendarDataManager의
 							bottomInfo.setText(SaveButMsg2);
 					} catch (IOException e) {
 						bottomInfo.setText(SaveButMsg3);
-					}
-					showCal();
+					}//여기까지
+					showCal(); // 달력출력
 				}					
 			});
 			delBut = new JButton(" Delete ");
-			delBut.addActionListener(new ActionListener(){
+			delBut.addActionListener(new ActionListener(){ // 삭제 버튼 클릭시 존재하는 파일 삭제
 				public void actionPerformed(ActionEvent e) {
 					memoArea.setText("");
 					File f =new File("MemoData/"+calYear+((calMonth+1)<10?"0":"")+(calMonth+1)+(calDayOfMon<10?"0":"")+calDayOfMon+".txt");
@@ -303,9 +306,9 @@ public class MemoCalendar extends CalendarDataManager{ // CalendarDataManager의
 					}
 					else 
 						bottomInfo.setText(DelButMsg2);					
-				}					
+				}		// DB데이터 삭제로 변경하기			
 			});
-			clearBut = new JButton("Clear");
+			clearBut = new JButton("Clear"); // 클리어버튼은 txt와 관련이 없으므로 삭제 X
 			clearBut.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent arg0) {
 					memoArea.setText(null);
@@ -314,20 +317,20 @@ public class MemoCalendar extends CalendarDataManager{ // CalendarDataManager의
 			});
 			memoSubPanel.add(saveBut);
 			memoSubPanel.add(delBut);
-			memoSubPanel.add(clearBut);
+			memoSubPanel.add(clearBut);// 메모의 할당된 구역에 3개의 버튼을 둔다
 			memoPanel.setLayout(new BorderLayout());
 			memoPanel.add(selectedDate, BorderLayout.NORTH);
 			memoPanel.add(memoAreaSP,BorderLayout.CENTER);
-			memoPanel.add(memoSubPanel,BorderLayout.SOUTH);
+			memoPanel.add(memoSubPanel,BorderLayout.SOUTH); // 3개의 버튼 생성
 
 		//calOpPanel, calPanel을  frameSubPanelWest에 배치
 		JPanel frameSubPanelWest = new JPanel();
 		Dimension calOpPanelSize = calOpPanel.getPreferredSize();
-		calOpPanelSize.height = 90;
+		calOpPanelSize.height = 90; // 달력위에 있는 버튼들의 정보 
 		calOpPanel.setPreferredSize(calOpPanelSize);
 		frameSubPanelWest.setLayout(new BorderLayout());
 		frameSubPanelWest.add(calOpPanel,BorderLayout.NORTH);
-		frameSubPanelWest.add(calPanel,BorderLayout.CENTER);
+		frameSubPanelWest.add(calPanel,BorderLayout.CENTER); //
 
 		//infoPanel, memoPanel을  frameSubPanelEast에 배치
 		JPanel frameSubPanelEast = new JPanel();
