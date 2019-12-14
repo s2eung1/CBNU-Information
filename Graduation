@@ -1,0 +1,82 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+
+public class G_condition extends JFrame {
+
+	ImageIcon icon; //이미지 변수
+	JScrollPane jsp = new JScrollPane(); //스크롤 선언
+	SignUpDTO sDTO=new SignUpDTO(); //학생 정보 받기 위함
+		
+	public G_condition() {
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		//DB 연결
+		try {
+			Class.forName("com.mysql.jdbc.Driver");  
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/swinfo","root","1234");  
+			stmt = conn.createStatement();
+			
+			String query = "SELECT * FROM signup"; 
+			rs=stmt.executeQuery(query);
+			
+
+			while(rs.next()) {
+				sDTO.setYear(rs.getString("year")); //DB에서 학번 받아와 저장
+			}
+		
+		} catch (SQLException se1) {
+			se1.printStackTrace();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		
+		this.setTitle("Graduation Condition");
+
+		if (sDTO.getYear().equals("15")) { //15학번일 때
+			icon = new ImageIcon("C:\\Users\\ferry\\Desktop\\졸업요건\\15학번.png"); //이미지 파일경로
+
+			JScrollPane jsp = new JScrollPane(new JLabel(icon)); //스크롤 및 이미지 추가
+			getContentPane().add(jsp);
+			setSize(1600, 900); //화면 사이즈
+			setVisible(true);
+		} else if (sDTO.getYear().equals("16")) {
+			icon = new ImageIcon("C:\\Users\\ferry\\Desktop\\졸업요건\\16학번.png");
+
+			JScrollPane jsp = new JScrollPane(new JLabel(icon));
+			getContentPane().add(jsp);
+			setSize(1600, 900);
+			setVisible(true);
+		} else if (sDTO.getYear().equals("17")) {
+			icon = new ImageIcon("C:\\Users\\ferry\\Desktop\\졸업요건\\17학번.png");
+
+			JScrollPane jsp = new JScrollPane(new JLabel(icon));
+			getContentPane().add(jsp);
+			setSize(1600, 900);
+			setVisible(true);
+		} else if (sDTO.getYear().equals("18")) {
+			icon = new ImageIcon("C:\\Users\\ferry\\Desktop\\졸업요건\\18학번.png");
+
+			JScrollPane jsp = new JScrollPane(new JLabel(icon));
+			getContentPane().add(jsp);
+			setSize(1600, 900);
+			setVisible(true);
+		} else if (sDTO.getYear().equals("19")) {
+			icon = new ImageIcon("C:\\Users\\ferry\\Desktop\\졸업요건\\19학번.png");
+
+			JScrollPane jsp = new JScrollPane(new JLabel(icon));
+			getContentPane().add(jsp);
+			setSize(1600, 900); 
+			setVisible(true);
+		}
+	}
+}
